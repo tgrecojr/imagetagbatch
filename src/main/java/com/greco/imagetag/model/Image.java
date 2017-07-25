@@ -2,6 +2,7 @@ package com.greco.imagetag.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -16,7 +17,6 @@ public class Image implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
     private String bucket;
@@ -25,18 +25,9 @@ public class Image implements Serializable {
 
     private String objectkeysha1;
 
-    //uni-directional many-to-many association to Label
-    @ManyToMany
-    @JoinTable(
-            name="imagelabels"
-            , joinColumns={
-            @JoinColumn(name="imageid")
-    }
-            , inverseJoinColumns={
-            @JoinColumn(name="lableid")
-    }
-    )
-    private List<Label> labels;
+    //bi-directional many-to-one association to Imagelabel
+    @OneToMany(mappedBy="image")
+    private List<Imagelabel> imagelabels;
 
     public Image() {
     }
@@ -73,12 +64,27 @@ public class Image implements Serializable {
         this.objectkeysha1 = objectkeysha1;
     }
 
-    public List<Label> getLabels() {
-        return this.labels;
+    public List<Imagelabel> getImagelabels() {
+        return this.imagelabels;
     }
 
-    public void setLabels(List<Label> labels) {
-        this.labels = labels;
+    public void setImagelabels(List<Imagelabel> imagelabels) {
+        this.imagelabels = imagelabels;
     }
+
+    public Imagelabel addImagelabel(Imagelabel imagelabel) {
+        getImagelabels().add(imagelabel);
+        imagelabel.setImage(this);
+
+        return imagelabel;
+    }
+
+    public Imagelabel removeImagelabel(Imagelabel imagelabel) {
+        getImagelabels().remove(imagelabel);
+        imagelabel.setImage(null);
+
+        return imagelabel;
+    }
+
 
 }

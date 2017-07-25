@@ -3,6 +3,7 @@ package com.greco.imagetag.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -16,10 +17,13 @@ public class Label implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
 
     private String labelname;
+
+    //bi-directional many-to-one association to Imagelabel
+    @OneToMany(mappedBy="label")
+    private List<Imagelabel> imagelabels;
 
     public Label() {
     }
@@ -38,6 +42,28 @@ public class Label implements Serializable {
 
     public void setLabelname(String labelname) {
         this.labelname = labelname;
+    }
+
+    public List<Imagelabel> getImagelabels() {
+        return this.imagelabels;
+    }
+
+    public void setImagelabels(List<Imagelabel> imagelabels) {
+        this.imagelabels = imagelabels;
+    }
+
+    public Imagelabel addImagelabel(Imagelabel imagelabel) {
+        getImagelabels().add(imagelabel);
+        imagelabel.setLabel(this);
+
+        return imagelabel;
+    }
+
+    public Imagelabel removeImagelabel(Imagelabel imagelabel) {
+        getImagelabels().remove(imagelabel);
+        imagelabel.setLabel(null);
+
+        return imagelabel;
     }
 
 }
