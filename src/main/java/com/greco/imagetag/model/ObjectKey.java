@@ -12,6 +12,16 @@ public class ObjectKey  {
     private String objectKeyName;
     private String objectKeySha1;
 
+    public ObjectKey(String bucket,String objectKeyName){
+        setObjectKeyName(objectKeyName);
+        setBucket(bucket);
+    }
+
+    public ObjectKey(int id, String bucket,String objectKeyName){
+        setId(id);
+        setObjectKeyName(objectKeyName);
+        setBucket(bucket);
+    }
 
     public int getId() {
         return id;
