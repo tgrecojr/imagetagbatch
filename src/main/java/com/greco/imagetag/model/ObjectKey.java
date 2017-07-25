@@ -23,6 +23,10 @@ public class ObjectKey  {
         setBucket(bucket);
     }
 
+    public ObjectKey(){
+        
+    }
+
     public int getId() {
         return id;
     }

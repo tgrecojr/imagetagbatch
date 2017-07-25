@@ -3,6 +3,7 @@ package com.greco.imagetag.repo;
 
 import com.greco.imagetag.model.ObjectKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class ObjectKeyRepository  {
 
     }
 
+    @Cacheable("objectkeys")
     public List<ObjectKey> findAll() {
 
         List<ObjectKey> result = jdbcTemplate.query(
