@@ -5,7 +5,24 @@ package com.greco.imagetag.model;
 
 public class DetectedLabel {
 
-    private long id;
+    public DetectedLabel(){
+
+    }
+
+    public DetectedLabel(int id, String labelName,float confidence){
+        setId(id);
+        setConfidence(confidence);
+        setLabelName(labelName);
+    }
+
+    public DetectedLabel(String labelName,float confidence){
+        setConfidence(confidence);
+        setLabelName(labelName);
+    }
+
+    public
+
+    private int id;
     private String labelName;
     private float confidence;
 
@@ -17,11 +34,11 @@ public class DetectedLabel {
         this.confidence = confidence;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
