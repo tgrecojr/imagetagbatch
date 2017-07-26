@@ -11,7 +11,6 @@ import org.springframework.context.annotation.PropertySource;
 
 
 @SpringBootApplication(scanBasePackages={"com.greco.imagetag.*"})
-@PropertySource("file:///Users/tgrecojr/Code/appconfigs/s3imagetagger.properties")
 @EnableAutoConfiguration
 @EnableCaching
 public class ImagetaggingApplication implements CommandLineRunner {
