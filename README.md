@@ -10,7 +10,7 @@ I was tired of only being able to search my pictures by directory names, and wan
 Image Tagging makes use of:
 
 * Spring Boot
-* Spring JPA
+* Spring ~~JPA~~ JDBC
 * Hibernate
 * Amazon RDS
 * Amazon Rekognition
