@@ -4,12 +4,17 @@ import com.greco.imagetag.model.ObjectKey;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @JdbcTest
 @ComponentScan("com.greco.imagetag")
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 public class ObjectKeyRepositoryTest {
 
     @Autowired
@@ -26,10 +32,31 @@ public class ObjectKeyRepositoryTest {
     @Test
     public void addObjectKey() {
 
-        ObjectKey ok = new ObjectKey();
-        ok.setBucket("TEST BUCKET");
-        ok.setObjectKeyName("TEST NAME");
+        ObjectKey ok = buildTestObjectKey();
         assertThat(objectKeyRepository.addObjectKey(ok)).isEqualTo(1);
+    }
+
+    @Test
+    public void findAll(){
+        ObjectKey ok = buildTestObjectKey();
+        objectKeyRepository.addObjectKey(ok);
+        List okList = objectKeyRepository.findAll();
+        assertThat(!okList.isEmpty());
+    }
+
+    @Test
+    public void findObjectKey(){
+        ObjectKey ok = buildTestObjectKey();
+        objectKeyRepository.addObjectKey(ok);
+        ObjectKey ok2 = objectKeyRepository.findObjectKey(ok.getBucket(),ok.getObjectKeyName());
+        assertThat(ok2.getBucket()).isEqualToIgnoringCase(ok.getBucket());
+    }
+
+    private ObjectKey buildTestObjectKey(){
+        ObjectKey ok = new ObjectKey();
+        ok.setObjectKeyName("TEST OBJECT KEY");
+        ok.setBucket("TEST BUCKET");
+        return ok;
     }
 
 

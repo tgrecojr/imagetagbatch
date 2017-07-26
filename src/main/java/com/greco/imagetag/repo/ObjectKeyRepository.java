@@ -29,7 +29,7 @@ public class ObjectKeyRepository  {
     public List<ObjectKey> findAll() {
 
         List<ObjectKey> result = jdbcTemplate.query(
-                "SELECT bucket, objectkey FROM images",
+                "SELECT id,bucket, objectkey FROM images",
                 (rs, rowNum) -> new ObjectKey(rs.getInt("id"), rs.getString("bucket"), rs.getString("objectkey"))
         );
 
@@ -40,7 +40,7 @@ public class ObjectKeyRepository  {
     @Cacheable("objectkey")
     public ObjectKey findObjectKey(String bucket, String objectKey){
         return jdbcTemplate.queryForObject(
-                "select id, bucket, objectkey where bucket = " + bucket + " and objectkey = " + objectKey ,
+                "select id, bucket, objectkey from images where bucket = '" + bucket + "' and objectkey = '" + objectKey +"'",
                 (rs, i) -> new ObjectKey(rs.getInt("id"), rs.getString("bucket"), rs.getString("objectkey")));
     }
 

@@ -20,7 +20,7 @@ public class DetectedLabel {
         setLabelName(labelName);
     }
 
-    public
+
 
     private int id;
     private String labelName;
