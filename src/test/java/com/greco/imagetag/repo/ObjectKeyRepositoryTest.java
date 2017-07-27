@@ -29,7 +29,8 @@ public class ObjectKeyRepositoryTest {
     public void addObjectKey() {
 
         ObjectKey ok = buildTestObjectKey();
-        assertThat(objectKeyRepository.addObjectKey(ok)).isEqualTo(1);
+        int returnedKey = objectKeyRepository.addObjectKey(ok);
+        assertThat(returnedKey).isGreaterThan(0);
     }
 
     @Test

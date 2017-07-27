@@ -3,6 +3,8 @@ package com.greco.imagetag.model;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.util.List;
+
 public class ObjectKey  {
 
 
@@ -11,6 +13,17 @@ public class ObjectKey  {
     private String bucket;
     private String objectKeyName;
     private String objectKeySha1;
+    private List<DetectedLabel> detectedLabels;
+
+    public List<DetectedLabel> getDetectedLabels() {
+        return detectedLabels;
+    }
+
+    public void setDetectedLabels(List<DetectedLabel> detectedLabels) {
+        this.detectedLabels = detectedLabels;
+    }
+
+
 
     public ObjectKey(String bucket,String objectKeyName){
         setObjectKeyName(objectKeyName);

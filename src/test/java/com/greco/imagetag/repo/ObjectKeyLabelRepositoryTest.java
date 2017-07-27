@@ -1,6 +1,7 @@
 package com.greco.imagetag.repo;
 
 import com.greco.imagetag.model.DetectedLabel;
+import com.greco.imagetag.model.ObjectKey;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +18,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 @JdbcTest
 @ComponentScan("com.greco.imagetag")
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-public class DetectedLabelRepositoryTest {
+public class ObjectKeyLabelRepositoryTest {
 
     @Autowired
     private DetectedLabelRepository detectedLabelRepository;
 
+    @Autowired
+    private ObjectKeyRepository objectKeyRepository;
+
+    @Autowired
+    private ObjectKeyLabelRepository objectKeyLabelRepository;
+
     @Test
-    public void addDetectedLabel() {
-
-        DetectedLabel dl = buildDetectedLabel();
-        int returnedKey = detectedLabelRepository.addDetectedLabel(dl);
-        assertThat(returnedKey).isGreaterThan(0);
-    }
-
-    private DetectedLabel buildDetectedLabel(){
+    public void addLabelAndConfidenceForObjectKey(){
+        ObjectKey ok = new ObjectKey();
+        ok.setObjectKeyName("TEST OBJECT KEY");
+        ok.setBucket("TEST BUCKET");
         DetectedLabel dl = new DetectedLabel();
         dl.setLabelName("TEST LABEL");
-        return dl;
+        int labelId = detectedLabelRepository.addDetectedLabel(dl);
+        int objectId = objectKeyRepository.addObjectKey(ok);
+        float f = 88f;
+        int returnedValue = objectKeyLabelRepository.addLabelAndConfidenceForObjectKey(objectId,labelId,f);
+        assertThat(returnedValue).isEqualTo(1);
     }
-
 }
