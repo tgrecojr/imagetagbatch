@@ -1,6 +1,5 @@
 package com.greco.imagetag.bus;
 
-import com.amazonaws.services.rekognition.model.Label;
 import com.greco.imagetag.aws.AWSConnector;
 import com.greco.imagetag.model.DetectedLabel;
 import com.greco.imagetag.model.ObjectKey;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
-import com.amazonaws.services.s3.model.Tag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,18 +40,9 @@ public class ImageProcessor {
             if(imageShouldBeProcessed(image)){
                 logger.info("Processing Image: " + image);
                 ObjectKey ok = new ObjectKey(s3Bucket,image);
-                List<Label> returnedLabels = awsConnector.getRekognitionLabels(s3Bucket,image,rekognitionMaxLabels,rekognitionMinConfidence);
-                ArrayList<DetectedLabel>detectedLabels = new ArrayList<DetectedLabel>();
-                List<Tag> s3Tags = new ArrayList<>();
-                for (Label label : returnedLabels) {
-                    //s3Tags.add(new Tag(label.getName(), label.getConfidence().toString()));
-                    logger.info("Detected Label: " + label.getName() + ", confidence: " + label.getConfidence());
-                    DetectedLabel dl = new DetectedLabel(label.getName(),label.getConfidence());
-                    detectedLabels.add(dl);
-                    s3Tags.add(new Tag(label.getName(), label.getConfidence().toString()));
-                }
-                ok.setDetectedLabels(detectedLabels);
-                awsConnector.tagS3Object(s3Bucket,image,s3Tags);
+                List<DetectedLabel> returnedLabels = awsConnector.getRekognitionLabels(s3Bucket,image,rekognitionMaxLabels,rekognitionMinConfidence);
+                ok.setDetectedLabels(returnedLabels);
+                awsConnector.tagS3Object(s3Bucket,image,returnedLabels);
                 objectKeyManager.saveObjectKeyAndLabels(ok);
             }else{
                 logger.warn("Skipping Image: " + image);
