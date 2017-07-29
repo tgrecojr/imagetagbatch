@@ -3,6 +3,7 @@ package com.greco.imagetag.repo;
 
 import com.greco.imagetag.model.DetectedLabel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -36,6 +37,7 @@ public class DetectedLabelRepository {
         return keyHolder.getKey().intValue();
     }
 
+    @Cacheable("label")
     public DetectedLabel findDetectedLabel(String detectedLabelName){
         return jdbcTemplate.queryForObject(
                 "select id, labelname from labels where labelname = '" + detectedLabelName +"'",

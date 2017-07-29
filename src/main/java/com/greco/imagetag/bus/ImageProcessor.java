@@ -74,7 +74,7 @@ public class ImageProcessor {
         return shouldBeProcessed;
     }
 
-    @Cacheable
+    @Cacheable("allowedtypes")
     protected List getAllowedRekognitionTypes(String listOfImageExtensions){
         List<String> items = Arrays.asList(allowedRekognitionImageTypes.split(","));
         return items;
