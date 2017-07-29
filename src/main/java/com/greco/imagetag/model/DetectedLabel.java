@@ -20,6 +20,11 @@ public class DetectedLabel {
         setLabelName(labelName);
     }
 
+    public DetectedLabel(int id, String labelName){
+        setId(id);
+        setLabelName(labelName);
+    }
+
 
 
     private int id;

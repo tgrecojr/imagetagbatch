@@ -36,4 +36,13 @@ public class DetectedLabelRepositoryTest {
         return dl;
     }
 
+    @Test
+    public void findDetectedLabel(){
+        DetectedLabel dl = new DetectedLabel();
+        dl.setLabelName("TEST LABEL");
+        int detectedLabelId = detectedLabelRepository.addDetectedLabel(dl);
+        DetectedLabel foundLabel = detectedLabelRepository.findDetectedLabel(dl.getLabelName());
+        assertThat(detectedLabelId).isEqualTo(foundLabel.getId());
+    }
+
 }

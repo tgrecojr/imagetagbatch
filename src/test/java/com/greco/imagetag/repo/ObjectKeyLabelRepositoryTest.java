@@ -42,4 +42,19 @@ public class ObjectKeyLabelRepositoryTest {
         int returnedValue = objectKeyLabelRepository.addLabelAndConfidenceForObjectKey(objectId,labelId,f);
         assertThat(returnedValue).isEqualTo(1);
     }
+
+    @Test
+    public void updateConfidence(){
+        ObjectKey ok = new ObjectKey();
+        ok.setObjectKeyName("TEST OBJECT KEY");
+        ok.setBucket("TEST BUCKET");
+        DetectedLabel dl = new DetectedLabel();
+        dl.setLabelName("TEST LABEL");
+        int labelId = detectedLabelRepository.addDetectedLabel(dl);
+        int objectId = objectKeyRepository.addObjectKey(ok);
+        float f = 88f;
+        int returnedValue = objectKeyLabelRepository.addLabelAndConfidenceForObjectKey(objectId,labelId,f);
+        int updatedReturndValue = objectKeyLabelRepository.updateConfidence(objectId,labelId,99f);
+        assertThat(updatedReturndValue).isEqualTo(1);
+    }
 }

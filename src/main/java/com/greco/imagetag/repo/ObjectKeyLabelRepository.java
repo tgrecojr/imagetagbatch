@@ -14,4 +14,9 @@ public class ObjectKeyLabelRepository {
         return jdbcTemplate.update("INSERT INTO imagelabels(imageid,labelid,confidence) VALUES (?,?,?)",
                 objectKeyId,labelId,confidence);
     }
+
+    public int updateConfidence(int objectKeyId, int labelId, float confidence){
+        return jdbcTemplate.update("update imagelabels set confidence = ? where imageid = ? and labelid =?",
+                confidence,objectKeyId,labelId);
+    }
 }

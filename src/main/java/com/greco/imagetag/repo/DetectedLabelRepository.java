@@ -36,4 +36,10 @@ public class DetectedLabelRepository {
         return keyHolder.getKey().intValue();
     }
 
+    public DetectedLabel findDetectedLabel(String detectedLabelName){
+        return jdbcTemplate.queryForObject(
+                "select id, labelname from labels where labelname = '" + detectedLabelName +"'",
+                (rs, i) -> new DetectedLabel(rs.getInt("id"), rs.getString("labelname")));
+    }
+
 }
