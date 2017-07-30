@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.greco.imagetag</groupId>
-	<artifactId>imagetagging</artifactId>
+	<artifactId>imagetagbatch</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>imagetagging</name>
+	<name>imagetagbatch</name>
 	<description>Amazon Image Tagging application</description>
 
 	<parent>
@@ -77,6 +77,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.greco.imagetag</groupId>
+			<artifactId>imagetagcommon</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
