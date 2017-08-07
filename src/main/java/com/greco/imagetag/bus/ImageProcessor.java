@@ -27,6 +27,8 @@ public class ImageProcessor {
     private int rekognitionMaxLabels;
     @Value("${aws.rekognition.minconfidence}")
     private float rekognitionMinConfidence;
+    @Value("${app.reprocessimages}")
+    private boolean reprocessImages;
 
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -37,7 +39,7 @@ public class ImageProcessor {
         ArrayList<String> objectKeysInBucket = awsConnector.getS3ObjectKeysForBucket(s3Bucket);
         logger.info("Found " + objectKeysInBucket.size() + " objects in S3 bucket " + s3Bucket);
         for (String image : objectKeysInBucket) {
-            if(imageShouldBeProcessed(image)){
+            if(imageShouldBeProcessed(s3Bucket,image)){
                 logger.info("Processing Image: " + image);
                 ObjectKey ok = new ObjectKey(s3Bucket,image);
                 List<DetectedLabel> returnedLabels = awsConnector.getRekognitionLabels(s3Bucket,image,rekognitionMaxLabels,rekognitionMinConfidence);
@@ -53,14 +55,24 @@ public class ImageProcessor {
 
     }
 
-    protected boolean imageShouldBeProcessed(String image){
-        boolean shouldBeProcessed = false;
+    protected boolean imageShouldBeProcessed(String bucket,String image){
+        boolean extensionIsValid = false;
         int dotLocation = image.lastIndexOf(".") + 1;
         String extension = image.substring(dotLocation, image.length());
         if(getAllowedRekognitionTypes(allowedRekognitionImageTypes).contains(extension)){
-            shouldBeProcessed = true;
+            extensionIsValid = true;
         }
-        return shouldBeProcessed;
+        boolean hasBeenProcessed = false;
+        if (extensionIsValid && !reprocessImages){
+            hasBeenProcessed = objectKeyManager.objectKeyExistsInBucket(bucket,image);
+            logger.info("Image: " + image + " in buckt " + bucket + " has already been processed.");
+        }
+        if(!hasBeenProcessed && extensionIsValid){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
     @Cacheable("allowedtypes")

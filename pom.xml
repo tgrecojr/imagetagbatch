@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>com.greco.imagetag</groupId>
 			<artifactId>imagetagcommon</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<version>0.0.5-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
