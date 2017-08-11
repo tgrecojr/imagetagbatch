@@ -5,7 +5,7 @@
 
 	<groupId>com.greco.imagetag</groupId>
 	<artifactId>imagetagbatch</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>imagetagbatch</name>
@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>com.greco.imagetag</groupId>
 			<artifactId>imagetagcommon</artifactId>
-			<version>0.0.5-SNAPSHOT</version>
+			<version>0.0.6-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
