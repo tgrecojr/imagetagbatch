@@ -5,6 +5,7 @@ import com.greco.imagetag.model.DetectedLabel;
 import com.greco.imagetag.model.ObjectKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -15,10 +16,9 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class ImageProcessor {
+public class ImageProcessor implements InitializingBean{
 
-    @Autowired
-    AWSConnector awsConnector;
+
     @Autowired
     ObjectKeyManager objectKeyManager;
     @Value("${aws.rekognition.allowedextensions}")
@@ -29,7 +29,12 @@ public class ImageProcessor {
     private float rekognitionMinConfidence;
     @Value("${app.reprocessimages}")
     private boolean reprocessImages;
+    @Value("${aws.profile}")
+    private String amazonProfileName;
+    @Value("${aws.region}")
+    private String amazonRegionName;
 
+    private AWSConnector awsConnector;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -82,5 +87,8 @@ public class ImageProcessor {
     }
 
 
-
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        awsConnector = new AWSConnector(amazonProfileName,amazonRegionName);
+    }
 }
