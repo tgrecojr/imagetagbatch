@@ -22,8 +22,7 @@ public class ImagetaggingApplication implements CommandLineRunner {
 
 	@Value("${aws.s3.bucket}")
 	private String amazonS3Bucket;
-	@Value("${aws.profile}")
-	private String allowedRekognitionImageTypes;
+
 
 	@Autowired
 	ImageProcessor imageProcessor;
